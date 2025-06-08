@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FilmFlix - Your Ultimate Streaming Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS RESET & DEFAULTS */
+        :root {
+            --primary-red: #E50914;
+            --primary-red-hover: #f61a26;
+            --gradient-start: #b80d15;
+            --gradient-end: #E50914;
+            --dark-bg: #101010;
+            --card-bg: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --border-color: #333333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* HEADER & NAVIGATION */
+        .main-header {
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(16, 16, 16, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 25px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            padding-top: 150px;
+            padding-bottom: 80px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            background: -webkit-linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+
+        /* SEARCH BAR (THE TOOL) */
+        .search-container {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        #search-bar {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1rem;
+            border-radius: 50px;
+            border: 2px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #search-bar:focus {
+            border-color: var(--primary-red);
+            box-shadow: 0 0 15px rgba(229, 9, 20, 0.3);
+        }
+        
+        /* ADVERTISEMENT PLACEHOLDERS */
+        .ad-placeholder {
+            margin: 60px auto;
+            background-color: #222;
+            border: 2px dashed var(--border-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            border-radius: 8px;
+        }
+        .ad-banner-top {
+            width: 100%;
+            max-width: 970px;
+            height: 90px;
+        }
+         .ad-banner-middle {
+            width: 100%;
+            max-width: 728px;
+            height: 90px;
+        }
+
+        /* FILM CATEGORIES & CARDS */
+        .category-section {
+            padding: 60px 0;
+        }
+
+        .category-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--primary-red);
+            display: inline-block;
+        }
+
+        .film-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .film-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .film-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .film-thumbnail {
+            width: 100%;
+            height: auto;
+            display: block;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+        }
+
+        .film-info {
+            padding: 15px;
+        }
+
+        .film-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 15px;
+        }
+
+        .watch-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .watch-btn:hover {
+            background: var(--primary-red-hover);
+        }
+        
+        /* PROCESS SECTION */
+        .process-section {
+            padding: 80px 0;
+            text-align: center;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        .process-card {
+            background: var(--card-bg);
+            padding: 40px 20px;
+            border-radius: 12px;
+            border-top: 4px solid var(--primary-red);
+        }
+        .process-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        .process-card p {
+            color: var(--text-secondary);
+        }
+
+        /* MODAL PLAYER */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 900px;
+            background: #000;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .close-btn:hover, .close-btn:focus {
+            color: var(--primary-red);
+        }
+        
+        /* FOOTER */
+        .main-footer {
+            padding: 40px 0;
+            margin-top: 60px;
+            background: var(--card-bg);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1rem; }
+            .nav-links { display: none; } /* Simplified nav for mobile */
+            .film-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+            .film-title { font-size: 1rem; }
+            .watch-btn { font-size: 0.9rem; padding: 8px; }
+        }
+        
+        @media (max-width: 480px) {
+            .film-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+            .hero { padding-top: 120px; padding-bottom: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ======== HEADER ======== -->
+    <header class="main-header">
+        <nav class="container main-nav">
+            <a href="#" class="logo">FilmFlix</a>
+            <div class="nav-links">
+                <a href="#sinhala">Sinhala</a>
+                <a href="#tamil">Tamil</a>
+                <a href="#hindi">Hindi</a>
+                <a href="#english">English</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ======== HERO SECTION & SEARCH TOOL ======== -->
+        <section class="hero">
+            <div class="container">
+                <h1>All Your Favorite Films. One Place.</h1>
+                <p>Search, discover, and watch thousands of films from around the world. Instantly stream on any device.</p>
+                <div class="search-container">
+                    <input type="text" id="search-bar" placeholder="Search for any film title...">
+                </div>
+            </div>
+        </section>
+        
+        <!-- ======== TOP AD BANNER ======== -->
+        <div class="ad-placeholder ad-banner-top">
+            <p>Advertisement Banner (970x90)</p>
+        </div>
+
+
+        <!-- ======== CATEGORY: SINHALA ======== -->
+        <section id="sinhala" class="category-section container">
+            <h2 class="category-title">Sinhala Films</h2>
+            <div class="film-grid">
+                <!-- Film Card - Manually add more here -->
+                <div class="film-card" data-title="Gajaman" data-video-id="9nZ5JkG6p1s">
+                    <img src="https://img.youtube.com/vi/9nZ5JkG6p1s/hqdefault.jpg" alt="Gajaman Thumbnail" class="film-thumbnail">
+                    <div class="film-info">
+                        <h3 class="film-title">Gajaman</h3>
+                        <button class="watch-btn">Watch Now</button>
+                    </div>
+                </div>
+                <div class="film-card" data-title="Aale Corona" data-video-id="fM2saD_YoT4">
+                    <img src="https://img.youtube.com/vi/fM2saD_YoT4/hqdefault.jpg" alt="Aale Corona Thumbnail" class="film-thumbnail">
+                    <div class="film-info">
+                        <h3 class="film-title">Aale Corona</h3>
+                        <button class="watch-btn">Watch Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== CATEGORY: TAMIL ======== -->
+        <section id="tamil" class="category-section container">
+            <h2 class="category-title">Tamil Films</h2>
+            <div class="film-grid">
+                <div class="film-card" data-title="Jailer" data-video-id="Y5BeWWf_Wag">
+                    <img src="https://img.youtube.com/vi/Y5BeWWf_Wag/hqdefault.jpg" alt="Jailer Thumbnail" class="film-thumbnail">
+                    <div class="film-info">
+                        <h3 class="film-title">Jailer</h3>
+                        <button class="watch-btn">Watch Now</button>
+                    </div>
+                </div>
+                <div class="film-card" data-title="Leo" data-video-id="Po3jStA673E">
+                    <img src="https://img.youtube.com/vi/Po3jStA673E/hqdefault.jpg" alt="Leo Thumbnail" class="film-thumbnail">
+                    <div class="film-info">
+                        <h3 class="film-title">Leo</h3>
+                        <button class="watch-btn">Watch Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== CATEGORY: MALAYALAM ======== -->
+        <section id="malayalam" class="category-section container">
+            <h2 class="category-title">Malayalam Films</h2>
+            <div class="film-grid">
+                <div class="film-card" data-title="Aavesham" data-video-id="re4l2H2K_Y4">
+                    <img src="https://img.youtube.com/vi/re4l2H2K_Y4/hqdefault.jpg" alt="Aavesham Thumbnail" class="film-thumbnail">
+                    <div class="film-info">
+                        <h3 class="film-title">Aavesham</h3>
+                        <button class="watch-btn">Watch Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== HOW IT WORKS SECTION ======== -->
+        <section class="process-section">
+            <div class="container">
+                <h2 class="section-title">Simple as 1, 2, 3</h2>
+                <div class="process-grid">
+                    <div class="process-card">
+                        <h3>1. Search & Discover</h3>
+                        <p>Use our powerful search to find films by title across all categories in an instant.</p>
+                    </div>
+                    <div class="process-card">
+                        <h3>2. Click to Play</h3>
+                        <p>Found something you like? Just click the "Watch Now" button to launch the player.</p>
+                    </div>
+                    <div class="process-card">
+                        <h3>3. Enjoy Instantly</h3>
+                        <p>Stream your chosen film immediately in high quality, with no interruptions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ======== MIDDLE AD BANNER ======== -->
+        <div class="ad-placeholder ad-banner-middle">
+            <p>Advertisement Banner (728x90)</p>
+        </div>
+
+
+        <!-- ======== CATEGORY: HINDI ======== -->
+        <section id="hindi" class="category-section container">
+            <h2 class="category-title">Hindi Films</h2>
+            <div class="film-grid">
+                <div class="film-card" data-title="Jawan" data-video-id="COv52Qyctws">
+                    <img src="https://img.youtube.com/vi/COv52Qyctws/hqdefault.jpg" alt="Jawan Thumbnail" class="film-thumbnail">
+                    <div class="film-info">
+                        <h3 class="film-title">Jawan</h3>
+                        <button class="watch-btn">Watch Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== CATEGORY: ENGLISH ======== -->
+        <section id="english" class="category-section container">
+            <h2 class="category-title">English Films</h2>
+            <div class="film-grid">
+                <div class="film-card" data-title="Oppenheimer" data-video-id="uYPbbksJxIg">
+                    <img src="https://img.youtube.com/vi/uYPbbksJxIg/hqdefault.jpg" alt="Oppenheimer Thumbnail" class="film-thumbnail">
+                    <div class="film-info">
+                        <h3 class="film-title">Oppenheimer</h3>
+                        <button class="watch-btn">Watch Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== CATEGORY: OTHER ======== -->
+        <section id="other" class="category-section container">
+            <h2 class="category-title">Other Languages</h2>
+            <div class="film-grid">
+                <div class="film-card" data-title="Parasite" data-video-id="5xH0HfJHsaY">
+                    <img src="https://img.youtube.com/vi/5xH0HfJHsaY/hqdefault.jpg" alt="Parasite Thumbnail" class="film-thumbnail">
+                    <div class="film-info">
+                        <h3 class="film-title">Parasite (Korean)</h3>
+                        <button class="watch-btn">Watch Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ======== MODAL PLAYER ======== -->
+    <div id="video-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">×</span>
+            <div id="video-player-container" class="video-container">
+                <!-- YouTube Iframe will be injected here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- ======== FOOTER ======== -->
+    <footer class="main-footer">
+        <p>© 2024 FilmFlix. All Rights Reserved. Created for demonstration purposes.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- MODAL PLAYER LOGIC ---
+            const modal = document.getElementById('video-modal');
+            const videoPlayerContainer = document.getElementById('video-player-container');
+            const closeBtn = document.querySelector('.close-btn');
+
+            // Handle opening the modal
+            document.querySelectorAll('.film-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const videoId = card.getAttribute('data-video-id');
+                    if (videoId) {
+                        videoPlayerContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+                        modal.style.display = 'flex'; // Use flex for centering
+                    }
+                });
+            });
+
+            // Function to close the modal
+            const closeModal = () => {
+                modal.style.display = 'none';
+                videoPlayerContainer.innerHTML = ''; // Stop the video by removing the iframe
+            };
+
+            // Handle closing the modal
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) { // Close only if clicking on the background
+                    closeModal();
+                }
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') { // Close with escape key
+                    closeModal();
+                }
+            });
+
+
+            // --- REAL-TIME SEARCH LOGIC ---
+            const searchBar = document.getElementById('search-bar');
+            const filmCards = document.querySelectorAll('.film-card');
+            const categories = document.querySelectorAll('.category-section');
+
+            searchBar.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase().trim();
+
+                filmCards.forEach(card => {
+                    const title = card.getAttribute('data-title').toLowerCase();
+                    const cardShouldBeVisible = title.includes(searchTerm);
+                    card.style.display = cardShouldBeVisible ? 'block' : 'none';
+                });
+                
+                // Hide category titles if no films in that category match the search
+                categories.forEach(category => {
+                    const visibleCards = category.querySelectorAll('.film-card[style*="display: block"]');
+                    const categoryTitle = category.querySelector('.category-title');
+                    if (categoryTitle) {
+                        categoryTitle.style.display = visibleCards.length > 0 ? 'inline-block' : 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+  </html>
